@@ -1,0 +1,72 @@
+{
+  "name": "@infosys_ltd/openfga-plugin-backstage",
+  "description": "This plugin wraps around the Backstage Permission Framework and uses the OPENFGA client to evaluate policies.",
+  "author": "Infosys",
+  "version": "1.0.1",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/index.esm.js",
+    "types": "dist/index.d.ts"
+  },
+  "backstage": {
+    "role": "frontend-plugin",
+    "pluginId": "openfga",
+    "pluginPackages": [
+      "@infosys_ltd/openfga-plugin-backstage"
+    ]
+  },
+  "homepage": "https://github.com/Infosys/openfga-plugin-backstage",
+  "bugs": {
+    "url": "https://github.com/Infosys/openfga-plugin-backstage/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Infosys/openfga-plugin-backstage"
+  },
+  "keywords": [
+    "backstage",
+    "openfga",
+    "permissions",
+    "RBAC"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "start": "backstage-cli package start",
+    "build": "backstage-cli package build",
+    "lint": "backstage-cli package lint",
+    "test": "backstage-cli package test",
+    "clean": "backstage-cli package clean",
+    "prepack": "backstage-cli package prepack",
+    "postpack": "backstage-cli package postpack"
+  },
+  "dependencies": {
+    "@backstage/core-components": "^0.14.8",
+    "@backstage/core-plugin-api": "^1.9.3",
+    "@backstage/theme": "^0.5.6",
+    "@material-ui/core": "^4.9.13",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "4.0.0-alpha.61",
+    "react-use": "^17.2.4"
+  },
+  "peerDependencies": {
+    "react": "^16.13.1 || ^17.0.0 || ^18.0.0"
+  },
+  "devDependencies": {
+    "@backstage/cli": "^0.26.7",
+    "@backstage/core-app-api": "^1.13.0",
+    "@backstage/dev-utils": "^1.0.34",
+    "@backstage/test-utils": "^1.5.6",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.0.0",
+    "msw": "^1.0.0",
+    "react": "^16.13.1 || ^17.0.0 || ^18.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "module": "./dist/index.esm.js"
+}
