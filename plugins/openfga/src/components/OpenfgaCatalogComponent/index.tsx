@@ -1,0 +1,1 @@
+export { OpenfgaCatalogComponent } from './OpenfgaCatalogComponent';
