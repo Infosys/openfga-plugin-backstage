@@ -41,7 +41,7 @@ Rules:
 
 ## CREATE A MODEL IN OPENFGA PLAYGROUND
 
-![playgroundmodel](./src/docs/model.png)
+![playgroundmodel](https://github.com/Infosys/openfga-plugin-backstage/blob/main/plugins/openfga/src/docs/model.png)
 
 ## RUNNING OPENFGA SERVER AND SETUP
 
@@ -194,32 +194,32 @@ EXAMPLE RESPONSE BODY:
 
 Before start accessing openFGA plugin in ui make sure you have updated following values in [openFgaConfig.ts] (https://github.com/Infosys/openfga-plugin-backstage/blob/master/plugins/openfga/src/openFgaConfig.ts)
 
-![openfgaconfig](./src/docs/openfgaconfig.png)
+![openfgaconfig](https://github.com/Infosys/openfga-plugin-backstage/blob/main/plugins/openfga/src/docs/openfgaconfig.png)
 
 HOME SCREEN:
 
-![homepage](./src/docs/homepage.png)
+![homepage](https://github.com/Infosys/openfga-plugin-backstage/blob/main/plugins/openfga/src/docs/homepage.png)
 
 BEFORE APPLYING POLICY:
 
 A guest user not able to unregister a entity
 
-![unregisterentity](./src/docs/unregisterentity.png)
+![unregisterentity](https://github.com/Infosys/openfga-plugin-backstage/blob/main/plugins/openfga/src/docs/unregisterentity.png)
 
 ADD POLICY:
 
-![addpolicy](./src/docs/addpolicy.png)
+![addpolicy](https://github.com/Infosys/openfga-plugin-backstage/blob/main/plugins/openfga/src/docs/addpolicy.png)
 
 APPLY POLICY:
 
-![applypolicy](./src/docs/applypolicy.png)
+![applypolicy](https://github.com/Infosys/openfga-plugin-backstage/blob/main/plugins/openfga/src/docs/applypolicy.png)
 
 AFTER APPLYING POLICY:
 
 A guest user able to unregister a entity
 
-![afterpolicyentity](./src/docs/afterpolicyentity.png)
+![afterpolicyentity](https://github.com/Infosys/openfga-plugin-backstage/blob/main/plugins/openfga/src/docs/afterpolicyentity.png)
 
 REVOKE POLICY:
 
-![revokepolicy](./src/docs/revokepolicy.png)
+![revokepolicy](https://github.com/Infosys/openfga-plugin-backstage/blob/main/plugins/openfga/src/docs/revokepolicy.png)
