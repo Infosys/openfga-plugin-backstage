@@ -29,7 +29,7 @@ export class AOpenFgaCatalogPolicy implements PermissionPolicy {
 
         try {
           // Send a permission request to the OpenFGA API
-          const response = await sendPermissionRequest(
+          const response = await sendPermissionRequest(fetch,
             entityName,
             'Delete',
             userName,
