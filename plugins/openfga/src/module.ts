@@ -4,7 +4,7 @@ import { policyExtensionPoint } from '@backstage/plugin-permission-node/alpha';
 
 export const permissionModuleACatalogPolicy = createBackendModule({
   pluginId: 'permission',
-  moduleId: 'a-name-policy',
+  moduleId: 'a-catalog-policy',
   register(reg) {
     reg.registerInit({
       deps: { policy: policyExtensionPoint },
