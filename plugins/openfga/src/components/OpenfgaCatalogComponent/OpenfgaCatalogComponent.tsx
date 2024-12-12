@@ -88,7 +88,7 @@ export const OpenfgaCatalogComponent = () => {
     const response = await sendPermissionRequest(fetch, selectedEntity, selectedAction, user);
     if (response.allowed) {
       setAllowMessage(`${user} Has permission to ${selectedAction} the ${selectedEntity}`);
-    } else if (!response.allowed && response.allowed == false){
+    } else if (response.allowed == false){
       setDenyMessage(selectedAction === 'Read' ? 
       `${user} have permission only to ${selectedAction} the ${selectedEntity}` :
       `${user} Does not have permission to ${selectedAction} the ${selectedEntity}`);
