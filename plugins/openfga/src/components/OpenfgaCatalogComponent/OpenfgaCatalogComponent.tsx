@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { sendPermissionRequest, addPolicy, revokePolicy } from '../../client'; 
 import Alert from '@material-ui/lab/Alert';
 
-import { useApi, identityApiRef } from '@backstage/core-plugin-api';
-import { CATALOG_FILTER_EXISTS, catalogApiRef } from '@backstage/plugin-catalog-react';
+import { useApi, identityApiRef, fetchApiRef } from '@backstage/core-plugin-api';
+import { catalogApiRef } from '@backstage/plugin-catalog-react';
 
 const actionOptions = ['Read', 'Delete'];
 const accessTypeOptions = ['owner', 'viewer'];
@@ -46,6 +46,7 @@ export const OpenfgaCatalogComponent = () => {
   const [policyMessage, setPolicyMessage] = useState<string>('');
   const catalogApi = useApi(catalogApiRef);
   const identityApi = useApi(identityApiRef);
+  const { fetch } = useApi(fetchApiRef);
 
   const handleEntityChange = (event: any) => {
     setSelectedEntity(event.target.value);
@@ -84,7 +85,7 @@ export const OpenfgaCatalogComponent = () => {
   }, []);
 
   const handleActivatePolicy = async () => {
-    const response = await sendPermissionRequest(selectedEntity, selectedAction, user);
+    const response = await sendPermissionRequest(fetch, selectedEntity, selectedAction, user);
     if (response.allowed) {
       setAllowMessage(`${user} Has permission to ${selectedAction} the ${selectedEntity}`);
     } else {
@@ -99,7 +100,7 @@ export const OpenfgaCatalogComponent = () => {
   };
 
   const handleAddPolicy = async () => {
-    const response = await addPolicy(selectedEntity, selectedAccessType, user);
+    const response = await addPolicy(fetch, selectedEntity, selectedAccessType, user);
     if (Object.keys(response).length === 0 && response.constructor === Object){
       setPolicyMessage(selectedAccessType === 'owner' ? 
         'Added permission for user to read/delete the entity' :
@@ -113,7 +114,7 @@ export const OpenfgaCatalogComponent = () => {
   };
 
   const handleRevokePolicy = async () => {
-    const response = await revokePolicy(selectedEntity, selectedAccessType, user);
+    const response = await revokePolicy(fetch, selectedEntity, selectedAccessType, user);
     if (Object.keys(response).length === 0 && response.constructor === Object){
       setPolicyMessage(selectedAccessType === 'owner' ? 
         'Revoked permission for user to read/delete the entity' :
