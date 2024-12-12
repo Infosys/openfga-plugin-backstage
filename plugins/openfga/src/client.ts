@@ -1,4 +1,5 @@
-import fetch from 'node-fetch';
+import { ResponseError } from '@backstage/errors';
+import { FetchApi } from '@backstage/core-plugin-api';
 import { openFgaConfig } from './openFgaConfig';
 
 interface OpenFgaRequest {
@@ -22,10 +23,16 @@ const openFgaBaseUrl = openFgaConfig.baseUrl;
 const openFgaStoreId = openFgaConfig.storeId;
 const authorizationModelId = openFgaConfig.authorizationModelId;
 
-export async function sendPermissionRequest(entityName: string, action: string, userName: any): Promise<OpenFgaResponse> {
+export async function sendPermissionRequest(
+  fetch: FetchApi['fetch'], 
+  entityName: string,
+  action: string,
+  userName: any
+): Promise<OpenFgaResponse> {
   const url = `${openFgaBaseUrl}/stores/${openFgaStoreId}/check`;
 
-  const relation = action.toLowerCase() === 'delete' ? 'catalog_entity_delete' : 'catalog_entity_read';
+  const relation =
+    typeof action === 'string' && action.toLowerCase() === 'delete' ? 'catalog_entity_delete' : 'catalog_entity_read';
 
   const requestBody: OpenFgaRequest = {
     tuple_key: {
@@ -43,15 +50,20 @@ export async function sendPermissionRequest(entityName: string, action: string, 
   });
 
   if (!response.ok) {
-    throw new Error(`OpenFGA API call failed with status: ${response.status}`);
+    throw await ResponseError.fromResponse(response);
   }
 
-  const data = await response.json() as OpenFgaResponse;
+  const data = (await response.json()) as OpenFgaResponse;
   permissionResponse = data;
   return data;
 }
 
-export async function addPolicy(entityName: string, accessType: string, userName: any): Promise<OpenFgaResponse> {
+export async function addPolicy(
+  fetch: FetchApi['fetch'], 
+  entityName: string,
+  accessType: string,
+  userName: any
+): Promise<OpenFgaResponse> {
   const url = `${openFgaBaseUrl}/stores/${openFgaStoreId}/write`;
 
   const requestBody = {
@@ -61,11 +73,11 @@ export async function addPolicy(entityName: string, accessType: string, userName
           _description: `Add ${userName} as ${accessType} on catalog_entity:${entityName}`,
           user: `${userName}`,
           relation: accessType,
-          object: `catalog_entity:${entityName}`
-        }
-      ]
+          object: `catalog_entity:${entityName}`,
+        },
+      ],
     },
-    authorization_model_id: authorizationModelId
+    authorization_model_id: authorizationModelId,
   };
 
   const response = await fetch(url, {
@@ -74,11 +86,20 @@ export async function addPolicy(entityName: string, accessType: string, userName
     body: JSON.stringify(requestBody),
   });
 
-  const data = await response.json() as OpenFgaResponse;
+  if (!response.ok) {
+    throw await ResponseError.fromResponse(response);
+  }
+
+  const data = (await response.json()) as OpenFgaResponse;
   return data;
 }
 
-export async function revokePolicy(entityName: string, accessType: string, userName: any): Promise<OpenFgaResponse> {
+export async function revokePolicy(
+  fetch: FetchApi['fetch'], 
+  entityName: string,
+  accessType: string,
+  userName: any
+): Promise<OpenFgaResponse> {
   const url = `${openFgaBaseUrl}/stores/${openFgaStoreId}/write`;
 
   const requestBody = {
@@ -88,11 +109,11 @@ export async function revokePolicy(entityName: string, accessType: string, userN
           _description: `Revoke ${userName} as ${accessType} on catalog_entity:${entityName}`,
           user: `${userName}`,
           relation: accessType,
-          object: `catalog_entity:${entityName}`
-        }
-      ]
+          object: `catalog_entity:${entityName}`,
+        },
+      ],
     },
-    authorization_model_id: authorizationModelId
+    authorization_model_id: authorizationModelId,
   };
 
   const response = await fetch(url, {
@@ -101,6 +122,10 @@ export async function revokePolicy(entityName: string, accessType: string, userN
     body: JSON.stringify(requestBody),
   });
 
-  const data = await response.json() as OpenFgaResponse;
+  if (!response.ok) {
+    throw await ResponseError.fromResponse(response);
+  }
+
+  const data = (await response.json()) as OpenFgaResponse;
   return data;
 }
