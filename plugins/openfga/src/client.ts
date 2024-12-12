@@ -1,4 +1,3 @@
-import { ResponseError } from '@backstage/errors';
 import { FetchApi } from '@backstage/core-plugin-api';
 import { openFgaConfig } from './openFgaConfig';
 
@@ -24,15 +23,17 @@ const openFgaStoreId = openFgaConfig.storeId;
 const authorizationModelId = openFgaConfig.authorizationModelId;
 
 export async function sendPermissionRequest(
-  fetch: FetchApi['fetch'], 
+  fetch: FetchApi['fetch'],
   entityName: string,
   action: string,
-  userName: any
+  userName: any,
 ): Promise<OpenFgaResponse> {
   const url = `${openFgaBaseUrl}/stores/${openFgaStoreId}/check`;
 
   const relation =
-    typeof action === 'string' && action.toLowerCase() === 'delete' ? 'catalog_entity_delete' : 'catalog_entity_read';
+    typeof action === 'string' && action.toLowerCase() === 'delete'
+      ? 'catalog_entity_delete'
+      : 'catalog_entity_read';
 
   const requestBody: OpenFgaRequest = {
     tuple_key: {
@@ -49,20 +50,16 @@ export async function sendPermissionRequest(
     body: JSON.stringify(requestBody),
   });
 
-  if (!response.ok) {
-    throw await ResponseError.fromResponse(response);
-  }
-
   const data = (await response.json()) as OpenFgaResponse;
   permissionResponse = data;
   return data;
 }
 
 export async function addPolicy(
-  fetch: FetchApi['fetch'], 
+  fetch: FetchApi['fetch'],
   entityName: string,
   accessType: string,
-  userName: any
+  userName: any,
 ): Promise<OpenFgaResponse> {
   const url = `${openFgaBaseUrl}/stores/${openFgaStoreId}/write`;
 
@@ -86,19 +83,15 @@ export async function addPolicy(
     body: JSON.stringify(requestBody),
   });
 
-  if (!response.ok) {
-    throw await ResponseError.fromResponse(response);
-  }
-
   const data = (await response.json()) as OpenFgaResponse;
   return data;
 }
 
 export async function revokePolicy(
-  fetch: FetchApi['fetch'], 
+  fetch: FetchApi['fetch'],
   entityName: string,
   accessType: string,
-  userName: any
+  userName: any,
 ): Promise<OpenFgaResponse> {
   const url = `${openFgaBaseUrl}/stores/${openFgaStoreId}/write`;
 
@@ -121,10 +114,6 @@ export async function revokePolicy(
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(requestBody),
   });
-
-  if (!response.ok) {
-    throw await ResponseError.fromResponse(response);
-  }
 
   const data = (await response.json()) as OpenFgaResponse;
   return data;

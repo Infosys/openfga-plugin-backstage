@@ -88,10 +88,12 @@ export const OpenfgaCatalogComponent = () => {
     const response = await sendPermissionRequest(fetch, selectedEntity, selectedAction, user);
     if (response.allowed) {
       setAllowMessage(`${user} Has permission to ${selectedAction} the ${selectedEntity}`);
-    } else {
+    } else if (response.allowed && response.allowed == false){
       setDenyMessage(selectedAction === 'Read' ? 
       `${user} have permission only to ${selectedAction} the ${selectedEntity}` :
       `${user} Does not have permission to ${selectedAction} the ${selectedEntity}`);
+    } else {
+      setDenyMessage(response.message)
     }
     setTimeout(() => {
       setAllowMessage('');
@@ -189,6 +191,11 @@ export const OpenfgaCatalogComponent = () => {
             {denyMessage.includes('Delete') && (
               <Alert severity="error" className={classes.alert}>
                 {user} Does not have permission to Delete the {selectedEntity}
+              </Alert>
+            )}
+            {denyMessage.includes('invalid') && (
+              <Alert severity="error" className={classes.alert}>
+                {denyMessage}
               </Alert>
             )}
           </>
