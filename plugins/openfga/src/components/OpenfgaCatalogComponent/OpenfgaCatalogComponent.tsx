@@ -64,7 +64,7 @@ export const OpenfgaCatalogComponent = () => {
       const { items } = await catalogApi.getEntities({ 
         fields: ['metadata.name'],
         filter: {
-          'kind=component': CATALOG_FILTER_EXISTS,
+          kind: 'component',
         },
       });
       const entityNames = items.map((entity) => entity.metadata.name);
