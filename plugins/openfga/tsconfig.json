@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "outDir": "dist-type",
+        "rootDir": "src",
+        "jsx": "react",
+        "esModuleInterop": true,
+        "target": "ES2015",
+        "moduleResolution": "node",
+        "module": "CommonJS",
+        "skipLibCheck": true
+    },
+    "include": ["src", "src/**/*"],
+    "exclude": ["node_modules", "dist"]
+}

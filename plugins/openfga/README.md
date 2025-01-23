@@ -5,7 +5,7 @@ This plugin wraps around the Backstage Permission Framework and uses the OPENFGA
 ## Installation
 
 ````bash
-yarn add --cwd packages/backend @infosys_ltd/openfga-plugin-backstage
+yarn --cwd packages/app add @infosys_ltd/openfga-plugin-backstage
 
 Your plugin will be added to the example app in this repository, meaning you'll be able to access it by running yarn start in the root directory, and then navigating to /openfga-permission-policy.
 
