@@ -1,18 +1,23 @@
-import { AOpenFgaCatalogPolicy } from './policy';
-import { createBackendModule } from '@backstage/backend-plugin-api';
+import { OpenFgaCatalogPolicy } from './policy';
+import {
+  coreServices,
+  createBackendModule,
+} from '@backstage/backend-plugin-api';
 import { policyExtensionPoint } from '@backstage/plugin-permission-node/alpha';
 
-export const permissionModuleACatalogPolicy = createBackendModule({
+export const permissionModuleCatalogPolicy = createBackendModule({
   pluginId: 'permission',
-  moduleId: 'a-catalog-policy',
+  moduleId: 'catalog-policy',
   register(reg) {
     reg.registerInit({
-      deps: { policy: policyExtensionPoint },
-      async init({ policy }) {
-        // Accessing the configuration from the backend environment
-        // const config: Config = useApi(configApiRef);
-
-        policy.setPolicy(new AOpenFgaCatalogPolicy());
+      deps: {
+        config: coreServices.rootConfig,
+        logger: coreServices.logger,
+        policy: policyExtensionPoint,
+        discovery: coreServices.discovery,
+      },
+      async init({ config, logger, policy, discovery }) {
+        policy.setPolicy(new OpenFgaCatalogPolicy(config, discovery));
       },
     });
   },

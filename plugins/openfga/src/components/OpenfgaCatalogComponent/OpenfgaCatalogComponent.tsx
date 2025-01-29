@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Select, MenuItem, FormControl, FormLabel, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { sendPermissionRequest, addPolicy, revokePolicy } from '../../client'; 
 import Alert from '@material-ui/lab/Alert';
 
-import { useApi, identityApiRef, fetchApiRef } from '@backstage/core-plugin-api';
+import { useApi, identityApiRef, fetchApiRef, configApiRef } from '@backstage/core-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
+import { openFgaApiRef } from '../../client';
 
 const actionOptions = ['Read', 'Delete'];
 const accessTypeOptions = ['owner', 'viewer'];
@@ -30,7 +30,7 @@ const useStyles = makeStyles({
   },
   alert: {
     minHeight: '100px',
-    maxWidth : '40px',
+    maxWidth: '40px',
   },
 });
 
@@ -47,6 +47,8 @@ export const OpenfgaCatalogComponent = () => {
   const catalogApi = useApi(catalogApiRef);
   const identityApi = useApi(identityApiRef);
   const { fetch } = useApi(fetchApiRef);
+  const config = useApi(configApiRef);
+  const openFgaClient = useApi(openFgaApiRef);
 
   const handleEntityChange = (event: any) => {
     setSelectedEntity(event.target.value);
@@ -62,7 +64,7 @@ export const OpenfgaCatalogComponent = () => {
 
   const fetchEntities = async () => {
     try {
-      const { items } = await catalogApi.getEntities({ 
+      const { items } = await catalogApi.getEntities({
         fields: ['metadata.name'],
         filter: {
           kind: 'component',
@@ -85,15 +87,19 @@ export const OpenfgaCatalogComponent = () => {
   }, []);
 
   const handleActivatePolicy = async () => {
-    const response = await sendPermissionRequest(fetch, selectedEntity, selectedAction, user);
+    if (!openFgaClient) {
+      console.error('OpenFgaClient is not initialized due to missing configuration values.');
+      return;
+    }
+    const response = await openFgaClient.sendPermissionRequest(selectedEntity, selectedAction, user);
     if (response.allowed) {
       setAllowMessage(`${user} Has permission to ${selectedAction} the ${selectedEntity}`);
-    } else if (response.allowed == false){
+    } else if (response.allowed === false) {
       setDenyMessage(selectedAction === 'Read' ? 
-      `${user} have permission only to ${selectedAction} the ${selectedEntity}` :
-      `${user} Does not have permission to ${selectedAction} the ${selectedEntity}`);
+        `${user} have permission only to ${selectedAction} the ${selectedEntity}` :
+        `${user} Does not have permission to ${selectedAction} the ${selectedEntity}`);
     } else {
-      setDenyMessage(response.message)
+      setDenyMessage(response.message);
     }
     setTimeout(() => {
       setAllowMessage('');
@@ -102,8 +108,12 @@ export const OpenfgaCatalogComponent = () => {
   };
 
   const handleAddPolicy = async () => {
-    const response = await addPolicy(fetch, selectedEntity, selectedAccessType, user);
-    if (Object.keys(response).length === 0 && response.constructor === Object){
+    if (!openFgaClient) {
+      console.error('OpenFgaClient is not initialized due to missing configuration values.');
+      return;
+    }
+    const response = await openFgaClient.addPolicy(selectedEntity, selectedAccessType, user);
+    if (Object.keys(response).length === 0 && response.constructor === Object) {
       setPolicyMessage(selectedAccessType === 'owner' ? 
         'Added permission for user to read/delete the entity' :
         'Added permission for user to read not delete the entity');
@@ -116,8 +126,12 @@ export const OpenfgaCatalogComponent = () => {
   };
 
   const handleRevokePolicy = async () => {
-    const response = await revokePolicy(fetch, selectedEntity, selectedAccessType, user);
-    if (Object.keys(response).length === 0 && response.constructor === Object){
+    if (!openFgaClient) {
+      console.error('OpenFgaClient is not initialized due to missing configuration values.');
+      return;
+    }
+    const response = await openFgaClient.revokePolicy(selectedEntity, selectedAccessType, user);
+    if (Object.keys(response).length === 0 && response.constructor === Object) {
       setPolicyMessage(selectedAccessType === 'owner' ? 
         'Revoked permission for user to read/delete the entity' :
         'Revoked permission for user to read not delete the entity');
@@ -153,7 +167,7 @@ export const OpenfgaCatalogComponent = () => {
               ))}
             </Select>
           </FormControl>
-          <br/>
+          <br />
           <FormControl>
             <FormLabel>Select Action</FormLabel>
             <Select
@@ -185,7 +199,7 @@ export const OpenfgaCatalogComponent = () => {
           <>
             {denyMessage.includes('Read') && (
               <Alert severity="success" className={classes.alert}>
-              {user} have permission only to Read the {selectedEntity}
+                {user} have permission only to Read the {selectedEntity}
               </Alert>
             )}
             {denyMessage.includes('Delete') && (
@@ -224,7 +238,7 @@ export const OpenfgaCatalogComponent = () => {
               ))}
             </Select>
           </FormControl>
-          <br/>
+          <br />
           <FormControl>
             <FormLabel>Select Access Type</FormLabel>
             <Select
@@ -263,4 +277,3 @@ export const OpenfgaCatalogComponent = () => {
     </Box>
   );
 };
-

@@ -8,9 +8,27 @@ import {
   PolicyQuery,
 } from '@backstage/plugin-permission-node';
 import { BackstageIdentityResponse } from '@backstage/plugin-auth-node';
-import { sendPermissionRequest } from './client';
+import { OpenFgaClient } from './client';
+import {
+  ConfigApi,
+  DiscoveryApi,
+  fetchApiRef,
+  FetchApi,
+} from '@backstage/core-plugin-api';
+import { useApi } from '@backstage/core-plugin-api';
 
-export class AOpenFgaCatalogPolicy implements PermissionPolicy {
+export class OpenFgaCatalogPolicy implements PermissionPolicy {
+  private openFgaClient: OpenFgaClient;
+
+  constructor(configApi: ConfigApi, discoveryApi: DiscoveryApi) {
+    const fetchApi: FetchApi = useApi(fetchApiRef);
+    this.openFgaClient = OpenFgaClient.fromConfig(
+      configApi,
+      discoveryApi,
+      fetchApi,
+    );
+  }
+
   async handle(
     request: PolicyQuery,
     user: BackstageIdentityResponse,
@@ -18,7 +36,7 @@ export class AOpenFgaCatalogPolicy implements PermissionPolicy {
     // Check if the request is for catalog-entity permissions
     if (isResourcePermission(request.permission, 'catalog-entity')) {
       if (request.permission.name === 'catalog.entity.delete') {
-        // Currently entityname is hardcoded, Load Entity based on the entity selection if possible
+        // Currently entityName is hardcoded, Load Entity based on the entity selection if possible
         const entityName = 'example-website';
         const userName = user.identity.ownershipEntityRefs;
 
@@ -28,8 +46,8 @@ export class AOpenFgaCatalogPolicy implements PermissionPolicy {
         }
 
         try {
-          // Send a permission request to the OpenFGA API
-          const response = await sendPermissionRequest(fetch,
+          // Send a permission request to the OpenFGA API using the client instance
+          const response = await this.openFgaClient.sendPermissionRequest(
             entityName,
             'Delete',
             userName,
