@@ -5,10 +5,12 @@ import {
   configApiRef,
   discoveryApiRef,
   fetchApiRef,
+  identityApiRef,
 } from '@backstage/core-plugin-api';
 
 import { rootRouteRef } from './routes';
-import { OpenFgaClient, openFgaApiRef } from './client';
+import { OpenFgaClient } from './OpenFgaClient';
+import { openFgaApiRef } from './OpenFgaApi';
 
 export const openfgaPlugin = createPlugin({
   id: 'openfga',
@@ -19,9 +21,10 @@ export const openfgaPlugin = createPlugin({
         configApi: configApiRef,
         discoveryApi: discoveryApiRef,
         fetchApi: fetchApiRef,
+        identityApi: identityApiRef,
       },
-      factory: ({ configApi, discoveryApi, fetchApi }) =>
-        OpenFgaClient.fromConfig(configApi, discoveryApi, fetchApi),
+      factory: ({ configApi, discoveryApi, fetchApi, identityApi }) =>
+        OpenFgaClient.fromConfig(configApi, discoveryApi, fetchApi, identityApi),
     }),
   ],
   routes: {

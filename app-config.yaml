@@ -32,6 +32,14 @@ backend:
     connection: ':memory:'
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
 
+  # Proxy settings for OpenFGA
+  proxy:
+     '/openfga':
+      target: 'http://localhost:8080' # Update this to your actual OpenFGA service URL
+      changeOrigin: true
+      pathRewrite:
+        '^/openfga': '' # Remove the '/openfga' prefix when forwarding to the target
+
 integrations:
   github:
     - host: github.com
@@ -43,18 +51,6 @@ integrations:
     #   apiBaseUrl: https://ghe.example.net/api/v3
     #   token: ${GHE_TOKEN}
 
-proxy:
-  ### Example for how to add a proxy endpoint for the frontend.
-  ### A typical reason to do this is to handle HTTPS and CORS for internal services.
-  # endpoints:
-  #   '/test':
-  #     target: 'https://example.com'
-  #     changeOrigin: true
-
-# Reference documentation http://backstage.io/docs/features/techdocs/configuration
-# Note: After experimenting with basic setup, use CI/CD to generate docs
-# and an external cloud storage when deploying TechDocs for production use-case.
-# https://backstage.io/docs/features/techdocs/how-to-guides#how-to-migrate-from-techdocs-basic-to-recommended-deployment-approach
 techdocs:
   builder: 'local' # Alternatives - 'external'
   generator:
@@ -103,7 +99,12 @@ catalog:
     #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/acme-corp.yaml
     #   rules:
     #     - allow: [User, Group]
-    
+
 permission:
   enabled: true
 
+# Configuration for the OpenFGA plugin
+openFga:
+  baseUrl: 'http://localhost:8080' #Replace with your actual OpenFGA base URL
+  storeId: '01JEX1WPV27P2FCCY18N1P7V80' #Replace with your OpenFGA store ID
+  authorizationModelId: '01JEX1X52B1BRNZF30AGJCS1N2'

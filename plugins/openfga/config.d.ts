@@ -4,15 +4,15 @@
 export interface Config {
   openfga?: {
     /**
-     * @deepVisibility frontend
+     * @visibility frontend
      */
     baseUrl: string;
     /**
-     * @deepVisibility frontend
+     * @visibility frontend
      */
     storeId: string;
     /**
-     * @deepVisibility frontend
+     * @visibility frontend
      */
     authorizationModelId: string;
   };

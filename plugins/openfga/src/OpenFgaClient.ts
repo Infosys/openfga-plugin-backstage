@@ -1,37 +1,14 @@
-import {
-  ConfigApi,
-  createApiRef,
-  DiscoveryApi,
-  FetchApi,
-} from '@backstage/core-plugin-api';
+import { ConfigApi, DiscoveryApi, FetchApi, IdentityApi } from '@backstage/core-plugin-api';
 import { AuthenticationError, ResponseError } from '@backstage/errors';
-
-interface OpenFgaRequest {
-  tuple_key: { user: string; relation: string; object: string };
-  authorization_model_id: string;
-}
-
-interface OpenFgaResponse {
-  allowed: boolean;
-  ok?: boolean;
-  message: string;
-}
-
-/** @public */
-export const openFgaApiRef = createApiRef<OpenFgaClient>({
-  id: 'plugin.openfga.service',
-});
+import { OpenFgaApi } from './OpenFgaApi';
+import { OpenFgaRequest, OpenFgaResponse } from './types';
 
 const DEFAULT_PROXY_PATH = '/openfga';
-const JSON_HEADERS = {
-  'Content-Type': 'application/json',
-  Accept: 'application/json',
-};
 
-/** @public */
-export class OpenFgaClient {
-  private readonly discoveryApi: DiscoveryApi;
-  private readonly fetchApi: FetchApi;
+export class OpenFgaClient implements OpenFgaApi {
+  readonly discoveryApi: DiscoveryApi;
+  readonly fetchApi: FetchApi;
+  readonly identityApi: IdentityApi;
   private readonly proxyPath: string;
   private readonly baseUrl: string;
   private readonly storeId: string;
@@ -42,6 +19,7 @@ export class OpenFgaClient {
     configApi: ConfigApi,
     discoveryApi: DiscoveryApi,
     fetchApi: FetchApi,
+    identityApi: IdentityApi,
   ) {
     const baseUrl: string =
       configApi.getOptionalString('openFga.baseUrl') ?? 'http://localhost:8080';
@@ -53,6 +31,7 @@ export class OpenFgaClient {
     return new OpenFgaClient({
       discoveryApi,
       fetchApi,
+      identityApi,
       baseUrl,
       storeId,
       authorizationModelId,
@@ -64,6 +43,7 @@ export class OpenFgaClient {
   constructor(opts: {
     discoveryApi: DiscoveryApi;
     fetchApi: FetchApi;
+    identityApi: IdentityApi;
     baseUrl: string;
     storeId: string;
     authorizationModelId: string;
@@ -71,6 +51,7 @@ export class OpenFgaClient {
   }) {
     this.discoveryApi = opts.discoveryApi;
     this.fetchApi = opts.fetchApi;
+    this.identityApi = opts.identityApi;
     this.baseUrl = opts.baseUrl;
     this.storeId = opts.storeId;
     this.authorizationModelId = opts.authorizationModelId;
@@ -153,7 +134,6 @@ export class OpenFgaClient {
       writes: {
         tuple_keys: [
           {
-            _description: `Add ${userName} as ${accessType} on catalog_entity:${entityName}`,
             user: `${userName}`,
             relation: accessType,
             object: `catalog_entity:${entityName}`,
@@ -183,7 +163,6 @@ export class OpenFgaClient {
       deletes: {
         tuple_keys: [
           {
-            _description: `Revoke ${userName} as ${accessType} on catalog_entity:${entityName}`,
             user: `${userName}`,
             relation: accessType,
             object: `catalog_entity:${entityName}`,

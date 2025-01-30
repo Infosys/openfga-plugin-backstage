@@ -12,11 +12,10 @@ export const permissionModuleCatalogPolicy = createBackendModule({
     reg.registerInit({
       deps: {
         config: coreServices.rootConfig,
-        logger: coreServices.logger,
         policy: policyExtensionPoint,
         discovery: coreServices.discovery,
       },
-      async init({ config, logger, policy, discovery }) {
+      async init({ config, policy, discovery }) {
         policy.setPolicy(new OpenFgaCatalogPolicy(config, discovery));
       },
     });

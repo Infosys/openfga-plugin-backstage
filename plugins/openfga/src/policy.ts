@@ -8,24 +8,18 @@ import {
   PolicyQuery,
 } from '@backstage/plugin-permission-node';
 import { BackstageIdentityResponse } from '@backstage/plugin-auth-node';
-import { OpenFgaClient } from './client';
-import {
-  ConfigApi,
-  DiscoveryApi,
-  fetchApiRef,
-  FetchApi,
-} from '@backstage/core-plugin-api';
-import { useApi } from '@backstage/core-plugin-api';
+import { OpenFgaClient } from './OpenFgaClient';
+import { ConfigApi, DiscoveryApi, FetchApi, IdentityApi } from '@backstage/core-plugin-api';
 
 export class OpenFgaCatalogPolicy implements PermissionPolicy {
   private openFgaClient: OpenFgaClient;
 
-  constructor(configApi: ConfigApi, discoveryApi: DiscoveryApi) {
-    const fetchApi: FetchApi = useApi(fetchApiRef);
+  constructor(configApi: ConfigApi, discoveryApi: DiscoveryApi, fetchApi: FetchApi, identityApi: IdentityApi) {
     this.openFgaClient = OpenFgaClient.fromConfig(
       configApi,
       discoveryApi,
       fetchApi,
+      identityApi,
     );
   }
 

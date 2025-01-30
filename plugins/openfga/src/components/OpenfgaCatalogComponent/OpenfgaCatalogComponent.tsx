@@ -3,9 +3,9 @@ import { Box, Typography, Select, MenuItem, FormControl, FormLabel, Button } fro
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
 
-import { useApi, identityApiRef, fetchApiRef, configApiRef } from '@backstage/core-plugin-api';
+import { useApi, identityApiRef } from '@backstage/core-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
-import { openFgaApiRef } from '../../client';
+import { openFgaApiRef } from '../../OpenFgaApi';
 
 const actionOptions = ['Read', 'Delete'];
 const accessTypeOptions = ['owner', 'viewer'];
@@ -46,8 +46,6 @@ export const OpenfgaCatalogComponent = () => {
   const [policyMessage, setPolicyMessage] = useState<string>('');
   const catalogApi = useApi(catalogApiRef);
   const identityApi = useApi(identityApiRef);
-  const { fetch } = useApi(fetchApiRef);
-  const config = useApi(configApiRef);
   const openFgaClient = useApi(openFgaApiRef);
 
   const handleEntityChange = (event: any) => {
