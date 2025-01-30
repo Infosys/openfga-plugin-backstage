@@ -1,6 +1,6 @@
 import { ConfigApi, DiscoveryApi, FetchApi, IdentityApi } from '@backstage/core-plugin-api';
 import { AuthenticationError, ResponseError } from '@backstage/errors';
-import { OpenFgaApi } from './OpenFgaApi';
+import { OpenFgaApi } from './openFgaApi';
 import { OpenFgaRequest, OpenFgaResponse } from './types';
 
 const DEFAULT_PROXY_PATH = '/openfga';
