@@ -1,15 +1,10 @@
-import { ConfigApi, DiscoveryApi, FetchApi, IdentityApi } from '@backstage/core-plugin-api';
-import { AuthenticationError, ResponseError } from '@backstage/errors';
+import { ConfigApi, DiscoveryApi } from '@backstage/core-plugin-api';
+import { ResponseError } from '@backstage/errors';
 import { OpenFgaApi } from './openFgaApi';
 import { OpenFgaRequest, OpenFgaResponse } from './types';
 
-const DEFAULT_PROXY_PATH = '/openfga';
-
 export class OpenFgaClient implements OpenFgaApi {
   readonly discoveryApi: DiscoveryApi;
-  readonly fetchApi: FetchApi;
-  readonly identityApi: IdentityApi;
-  private readonly proxyPath: string;
   private readonly baseUrl: string;
   private readonly storeId: string;
   private readonly authorizationModelId: string;
@@ -18,53 +13,30 @@ export class OpenFgaClient implements OpenFgaApi {
   static fromConfig(
     configApi: ConfigApi,
     discoveryApi: DiscoveryApi,
-    fetchApi: FetchApi,
-    identityApi: IdentityApi,
   ) {
-    const baseUrl: string =
-      configApi.getOptionalString('openFga.baseUrl') ?? 'http://localhost:8080';
-    const storeId: string =
-      configApi.getOptionalString('openFga.storeId') ?? '';
-    const authorizationModelId: string =
-      configApi.getOptionalString('openFga.authorizationModelId') ?? '';
+    const baseUrl: string = configApi.getOptionalString('openFga.baseUrl') ?? 'http://localhost:8080';
+    const storeId: string = configApi.getOptionalString('openFga.storeId') ?? '01JJV73AF055YW4S05828EMJ43';
+    const authorizationModelId: string = configApi.getOptionalString('openFga.authorizationModelId') ?? '01JJV73VNSAZ4DY3JV3Q1ZN720';
 
     return new OpenFgaClient({
       discoveryApi,
-      fetchApi,
-      identityApi,
       baseUrl,
       storeId,
       authorizationModelId,
-      proxyPath:
-        configApi.getOptionalString('openFga.proxyPath') ?? DEFAULT_PROXY_PATH,
     });
   }
 
   constructor(opts: {
     discoveryApi: DiscoveryApi;
-    fetchApi: FetchApi;
-    identityApi: IdentityApi;
     baseUrl: string;
     storeId: string;
     authorizationModelId: string;
-    proxyPath: string;
   }) {
     this.discoveryApi = opts.discoveryApi;
-    this.fetchApi = opts.fetchApi;
-    this.identityApi = opts.identityApi;
     this.baseUrl = opts.baseUrl;
     this.storeId = opts.storeId;
     this.authorizationModelId = opts.authorizationModelId;
-    this.proxyPath = opts.proxyPath;
     this.permissionResponse = null;
-
-    // Debugging: Log the configuration values
-    console.log('OpenFGA Base URL backend log:', this.baseUrl);
-    console.log('OpenFGA Store ID backend log:', this.storeId);
-    console.log(
-      'OpenFGA Authorization Model ID backend log:',
-      this.authorizationModelId,
-    );
   }
 
   public getPermissionResponse(): OpenFgaResponse | null {
@@ -72,24 +44,13 @@ export class OpenFgaClient implements OpenFgaApi {
   }
 
   private async fetch<T = any>(input: string, init?: RequestInit): Promise<T> {
-    const apiUrl = await this.apiUrl();
-
-    const response = await this.fetchApi.fetch(`${apiUrl}${input}`, init);
-    if (response.status === 401) {
-      throw new AuthenticationError(
-        'This request requires HTTP authentication.',
-      );
-    }
-    if (!response.ok || response.status >= 400) {
+    const apiUrl = `${this.baseUrl}${input}`;
+    const response = await fetch(apiUrl, init);
+    if (!response.ok) {
       throw await ResponseError.fromResponse(response);
     }
 
     return await response.json();
-  }
-
-  private async apiUrl() {
-    const proxyUrl = await this.discoveryApi.getBaseUrl('proxy');
-    return proxyUrl + this.proxyPath;
   }
 
   public async sendPermissionRequest(
@@ -97,7 +58,7 @@ export class OpenFgaClient implements OpenFgaApi {
     action: string,
     userName: any,
   ): Promise<OpenFgaResponse> {
-    const url = `${await this.apiUrl()}/stores/${this.storeId}/check`;
+    const url = `/stores/${this.storeId}/check`;
 
     const relation =
       typeof action === 'string' && action.toLowerCase() === 'delete'
@@ -112,6 +73,7 @@ export class OpenFgaClient implements OpenFgaApi {
       },
       authorization_model_id: this.authorizationModelId,
     };
+
 
     const response = await this.fetch<OpenFgaResponse>(url, {
       method: 'POST',
@@ -128,7 +90,7 @@ export class OpenFgaClient implements OpenFgaApi {
     accessType: string,
     userName: any,
   ): Promise<OpenFgaResponse> {
-    const url = `${await this.apiUrl()}/stores/${this.storeId}/write`;
+    const url = `/stores/${this.storeId}/write`;
 
     const requestBody = {
       writes: {
@@ -142,6 +104,7 @@ export class OpenFgaClient implements OpenFgaApi {
       },
       authorization_model_id: this.authorizationModelId,
     };
+
 
     const response = await this.fetch<OpenFgaResponse>(url, {
       method: 'POST',
@@ -157,7 +120,7 @@ export class OpenFgaClient implements OpenFgaApi {
     accessType: string,
     userName: any,
   ): Promise<OpenFgaResponse> {
-    const url = `${await this.apiUrl()}/stores/${this.storeId}/write`;
+    const url = `/stores/${this.storeId}/write`;
 
     const requestBody = {
       deletes: {
@@ -171,6 +134,7 @@ export class OpenFgaClient implements OpenFgaApi {
       },
       authorization_model_id: this.authorizationModelId,
     };
+
 
     const response = await this.fetch<OpenFgaResponse>(url, {
       method: 'POST',

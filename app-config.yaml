@@ -35,8 +35,9 @@ backend:
   # Proxy settings for OpenFGA
   proxy:
      '/openfga':
-      target: 'http://localhost:8080' # Update this to your actual OpenFGA service URL
+      target: 'http://localhost:8080/stores' # Update this to your actual OpenFGA service URL
       changeOrigin: true
+      allowedMethods: ['GET', 'POST', 'PUT', 'DELETE']
       pathRewrite:
         '^/openfga': '' # Remove the '/openfga' prefix when forwarding to the target
 
@@ -105,6 +106,6 @@ permission:
 
 # Configuration for the OpenFGA plugin
 openFga:
-  baseUrl: 'http://localhost:8080' #Replace with your actual OpenFGA base URL
-  storeId: '01JEX1WPV27P2FCCY18N1P7V80' #Replace with your OpenFGA store ID
-  authorizationModelId: '01JEX1X52B1BRNZF30AGJCS1N2'
+  # baseUrl: 'http://localhost:8080' #Replace with your actual OpenFGA base URL
+  storeId: '01JJV73AF055YW4S05828EMJ43' #Replace with your OpenFGA store ID
+  authorizationModelId: '01JJV73VNSAZ4DY3JV3Q1ZN720'
