@@ -5,7 +5,7 @@ import Alert from '@material-ui/lab/Alert';
 
 import { useApi, identityApiRef } from '@backstage/core-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
-import { openFgaApiRef } from '../../OpenFgaApi';
+import { openFgaApiRef } from '../../openFgaApi';
 
 const actionOptions = ['Read', 'Delete'];
 const accessTypeOptions = ['owner', 'viewer'];

@@ -1,4 +1,4 @@
 export { openfgaPlugin, OpenfgaPage } from './plugin';
-export * from './OpenFgaApi';
+export * from './openFgaApi';
 export * from './OpenFgaClient';
 export * from './types';
