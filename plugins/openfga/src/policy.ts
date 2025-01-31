@@ -9,17 +9,15 @@ import {
 } from '@backstage/plugin-permission-node';
 import { BackstageIdentityResponse } from '@backstage/plugin-auth-node';
 import { OpenFgaClient } from './OpenFgaClient';
-import { ConfigApi, DiscoveryApi, FetchApi, IdentityApi } from '@backstage/core-plugin-api';
+import { ConfigApi, DiscoveryApi } from '@backstage/core-plugin-api';
 
 export class OpenFgaCatalogPolicy implements PermissionPolicy {
   private openFgaClient: OpenFgaClient;
 
-  constructor(configApi: ConfigApi, discoveryApi: DiscoveryApi, fetchApi: FetchApi, identityApi: IdentityApi) {
+  constructor(configApi: ConfigApi, discoveryApi: DiscoveryApi) {
     this.openFgaClient = OpenFgaClient.fromConfig(
       configApi,
       discoveryApi,
-      fetchApi,
-      identityApi,
     );
   }
 

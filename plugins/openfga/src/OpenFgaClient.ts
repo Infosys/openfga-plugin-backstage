@@ -14,9 +14,14 @@ export class OpenFgaClient implements OpenFgaApi {
     configApi: ConfigApi,
     discoveryApi: DiscoveryApi,
   ) {
-    const baseUrl: string = configApi.getOptionalString('openFga.baseUrl') ?? 'http://localhost:8080';
-    const storeId: string = configApi.getOptionalString('openFga.storeId') ?? '01JJV73AF055YW4S05828EMJ43';
-    const authorizationModelId: string = configApi.getOptionalString('openFga.authorizationModelId') ?? '01JJV73VNSAZ4DY3JV3Q1ZN720';
+    const baseUrl: string = configApi.getOptionalString('openfga.baseUrl') ?? '';
+    const storeId: string = configApi.getOptionalString('openfga.storeId') ?? '';
+    const authorizationModelId: string = configApi.getOptionalString('openfga.authorizationModelId') ?? '';
+
+    if (!storeId || !authorizationModelId) {
+      console.error('Missing configuration values for OpenFGA. Please check your app-config.yaml.');
+    }
+
 
     return new OpenFgaClient({
       discoveryApi,
@@ -74,7 +79,6 @@ export class OpenFgaClient implements OpenFgaApi {
       authorization_model_id: this.authorizationModelId,
     };
 
-
     const response = await this.fetch<OpenFgaResponse>(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -105,7 +109,6 @@ export class OpenFgaClient implements OpenFgaApi {
       authorization_model_id: this.authorizationModelId,
     };
 
-
     const response = await this.fetch<OpenFgaResponse>(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -134,8 +137,7 @@ export class OpenFgaClient implements OpenFgaApi {
       },
       authorization_model_id: this.authorizationModelId,
     };
-
-
+    
     const response = await this.fetch<OpenFgaResponse>(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
