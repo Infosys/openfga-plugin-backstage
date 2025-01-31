@@ -22,7 +22,6 @@ export class OpenFgaClient implements OpenFgaApi {
       console.error('Missing configuration values for OpenFGA. Please check your app-config.yaml.');
     }
 
-
     return new OpenFgaClient({
       discoveryApi,
       baseUrl,
@@ -137,7 +136,7 @@ export class OpenFgaClient implements OpenFgaApi {
       },
       authorization_model_id: this.authorizationModelId,
     };
-    
+
     const response = await this.fetch<OpenFgaResponse>(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

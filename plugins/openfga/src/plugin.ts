@@ -4,8 +4,6 @@ import {
   createApiFactory,
   configApiRef,
   discoveryApiRef,
-  fetchApiRef,
-  identityApiRef,
 } from '@backstage/core-plugin-api';
 import { rootRouteRef } from './routes';
 import { OpenFgaClient } from './OpenFgaClient';
@@ -19,15 +17,11 @@ export const openfgaPlugin = createPlugin({
       deps: {
         configApi: configApiRef,
         discoveryApi: discoveryApiRef,
-        fetchApi: fetchApiRef,
-        identityApi: identityApiRef,
       },
-      factory: ({ configApi, discoveryApi, fetchApi, identityApi }) =>
+      factory: ({ configApi, discoveryApi }) =>
         OpenFgaClient.fromConfig(
           configApi,
           discoveryApi,
-          fetchApi,
-          identityApi,
         ),
     }),
   ],

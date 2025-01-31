@@ -1,4 +1,4 @@
-import { createApiRef, ConfigApi, DiscoveryApi, IdentityApi } from '@backstage/core-plugin-api';
+import { createApiRef, ConfigApi, DiscoveryApi } from '@backstage/core-plugin-api';
 import { OpenFgaResponse } from './types';
 import { OpenFgaClient } from './OpenFgaClient';
 
@@ -31,9 +31,8 @@ export const openFgaApiFactory = {
   deps: {
     configApi: createApiRef<ConfigApi>({ id: 'core.config' }),
     discoveryApi: createApiRef<DiscoveryApi>({ id: 'core.discovery' }),
-    identityApi: createApiRef<IdentityApi>({ id: 'core.identity' }),
   },
-  factory: ({ configApi, discoveryApi, identityApi }) => {
+  factory: ({ configApi, discoveryApi }: { configApi: ConfigApi; discoveryApi: DiscoveryApi }) => {
     const openFgaConfig = configApi.getConfig('openfga');
     const baseUrl = openFgaConfig.getOptionalString('baseUrl') ?? '';
     const storeId = openFgaConfig.getOptionalString('storeId') ?? '';
