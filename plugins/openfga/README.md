@@ -13,13 +13,13 @@ Make the following changes to the `packages/backend/src/index.ts` file in your B
 
 ```diff
 import { createBackend } from '@backstage/backend-defaults';
-import { permissionModuleACatalogPolicy } from '../../../plugins/openfga/src/module';
+import { permissionModuleCatalogPolicy } from '@infosys_ltd/openfga-plugin-backstage';
 
 const backend = createBackend();
 backend.add(import('@backstage/plugin-app-backend/alpha'));
 backend.add(import('@backstage/plugin-auth-backend'));
 // ..... other plugins
-+ backend.add(permissionModuleACatalogPolicy)
++ backend.add(permissionModuleCatalogPolicy)
 
 comment following line:
 
@@ -29,6 +29,9 @@ backend.add(import('@backstage/plugin-permission-backend/alpha'));
 //   import('@backstage/plugin-permission-backend-module-allow-all-policy'),
 // );
 ````
+
+## Installation
+The OPENFGA client requires configuration to connect to the OPENFGA server. You need to provide a baseUrl , storeId, authorizationModelId for the OPENFGA server in your Backstage app-config.yaml file:
 
 ## Example Catalog Permission policy using openFGA
 

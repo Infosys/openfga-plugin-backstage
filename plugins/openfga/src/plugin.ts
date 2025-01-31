@@ -6,8 +6,9 @@ import {
   discoveryApiRef,
 } from '@backstage/core-plugin-api';
 import { rootRouteRef } from './routes';
-import { OpenFgaClient } from './OpenFgaClient';
-import { openFgaApiRef } from './openFgaApi';
+import { OpenFgaClient } from './api/OpenFgaClient';
+import { openFgaApiRef } from './api/openFgaApi';
+
 
 export const openfgaPlugin = createPlugin({
   id: 'openfga',

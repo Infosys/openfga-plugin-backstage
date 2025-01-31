@@ -8,7 +8,7 @@ import {
   PolicyQuery,
 } from '@backstage/plugin-permission-node';
 import { BackstageIdentityResponse } from '@backstage/plugin-auth-node';
-import { OpenFgaClient } from './OpenFgaClient';
+import { OpenFgaClient } from './api/OpenFgaClient';
 import { ConfigApi, DiscoveryApi } from '@backstage/core-plugin-api';
 
 export class OpenFgaCatalogPolicy implements PermissionPolicy {
