@@ -30,8 +30,12 @@ backend.add(import('@backstage/plugin-permission-backend/alpha'));
 // );
 ````
 
-## Installation
+## Configuration
 The OPENFGA client requires configuration to connect to the OPENFGA server. You need to provide a baseUrl , storeId, authorizationModelId for the OPENFGA server in your Backstage app-config.yaml file:
+
+![proxyconfig](https://github.com/Infosys/openfga-plugin-backstage/blob/main/plugins/openfga/src/docs/proxyconfig.png)
+
+![openfgaconfig](https://github.com/Infosys/openfga-plugin-backstage/blob/main/plugins/openfga/src/docs/openfgaconfig.png)
 
 ## Example Catalog Permission policy using openFGA
 
@@ -194,10 +198,6 @@ EXAMPLE RESPONSE BODY:
 ```
 
 ## USING OPENFGA FRONT END PLUGIN
-
-Before start accessing openFGA plugin in ui make sure you have updated following values in [openFgaConfig.ts] (https://github.com/Infosys/openfga-plugin-backstage/blob/master/plugins/openfga/src/openFgaConfig.ts)
-
-![openfgaconfig](https://github.com/Infosys/openfga-plugin-backstage/blob/main/plugins/openfga/src/docs/openfgaconfig.png)
 
 HOME SCREEN:
 
