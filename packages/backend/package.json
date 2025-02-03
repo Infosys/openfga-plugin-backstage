@@ -38,6 +38,7 @@
     "@backstage/plugin-search-backend-module-techdocs": "^0.1.24",
     "@backstage/plugin-search-backend-node": "^1.2.24",
     "@backstage/plugin-techdocs-backend": "^1.10.6",
+    "@internal/backstage-plugin-openfga-backend": "^0.1.0",
     "app": "link:../app",
     "better-sqlite3": "^9.0.0",
     "node-gyp": "^10.0.0",
