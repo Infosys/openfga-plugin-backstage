@@ -5,7 +5,7 @@ import Alert from '@material-ui/lab/Alert';
 
 import { useApi, identityApiRef } from '@backstage/core-plugin-api';
 import { catalogApiRef } from '@backstage/plugin-catalog-react';
-import { openFgaApiRef } from '../../api/openFgaApi';
+import { openFgaApiRef } from '@infosys_ltd/backstage-plugin-openfga-common';
 
 
 const actionOptions = ['Read', 'Delete'];

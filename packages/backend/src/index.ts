@@ -7,7 +7,7 @@
  */
 
 import { createBackend } from '@backstage/backend-defaults';
-import { permissionModuleCatalogPolicy } from '../../../plugins/openfga/src/module';
+import permissionModuleCatalogPolicy from '@infosys_ltd/backstage-plugin-permission-backend-module-catalog-policy';
 
 const backend = createBackend();
 
@@ -39,6 +39,6 @@ backend.add(import('@backstage/plugin-search-backend/alpha'));
 backend.add(import('@backstage/plugin-search-backend-module-catalog/alpha'));
 backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
 
-backend.add(permissionModuleCatalogPolicy)
+backend.add(permissionModuleCatalogPolicy);
 
 backend.start();
