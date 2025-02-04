@@ -1,7 +1,6 @@
 {
-  "name": "@infosys_ltd/backstage-plugin-openfga-common",
-  "description": "Common functionalities for the openfga plugin",
-  "author": "Infosys",
+  "name": "@infosys_ltd/backstage-plugin-permission-backend-module-catalog-policy",
+  "description": "The catalog-policy backend module for the permission plugin.",
   "version": "1.0.0",
   "main": "src/index.ts",
   "types": "src/index.ts",
@@ -9,16 +8,18 @@
   "publishConfig": {
     "access": "public",
     "main": "dist/index.cjs.js",
-    "module": "dist/index.esm.js",
     "types": "dist/index.d.ts"
   },
   "backstage": {
-    "role": "common-library",
-    "pluginId": "openfga",
+    "role": "backend-plugin-module",
+    "pluginId": "permission",
     "pluginPackages": [
+      "@infosys_ltd/openfga-plugin-backstage",
       "@infosys_ltd/backstage-plugin-openfga-common",
-      "@infosys_ltd/openfga-plugin-backstage"
-    ]
+      "@infosys_ltd/backstage-plugin-permission-backend-module-catalog-policy",
+      "@backstage/plugin-permission-backend"
+    ],
+    "pluginPackage": "@backstage/plugin-permission-backend"
   },
   "homepage": "https://github.com/Infosys/openfga-plugin-backstage",
   "bugs": {
@@ -34,8 +35,8 @@
     "permissions",
     "RBAC"
   ],
-  "sideEffects": false,
   "scripts": {
+    "start": "backstage-cli package start",
     "build": "backstage-cli package build",
     "lint": "backstage-cli package lint",
     "test": "backstage-cli package test",
@@ -43,7 +44,15 @@
     "prepack": "backstage-cli package prepack",
     "postpack": "backstage-cli package postpack"
   },
+  "dependencies": {
+    "@backstage/backend-common": "^0.23.2",
+    "@backstage/backend-plugin-api": "^0.6.21",
+    "@infosys_ltd/backstage-plugin-openfga-common": "^1.0.0",
+    "@backstage/plugin-permission-common": "^0.8.3",
+    "@backstage/plugin-permission-node": "^0.8.6"
+  },
   "devDependencies": {
+    "@backstage/backend-test-utils": "^0.4.3",
     "@backstage/cli": "^0.26.7"
   },
   "files": [

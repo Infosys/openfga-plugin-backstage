@@ -15,6 +15,7 @@
     "role": "frontend-plugin",
     "pluginId": "openfga",
     "pluginPackages": [
+      "@infosys_ltd/backstage-plugin-openfga-common",
       "@infosys_ltd/openfga-plugin-backstage"
     ]
   },
@@ -49,6 +50,8 @@
     "@material-ui/core": "^4.9.13",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "4.0.0-alpha.61",
+    "@infosys_ltd/backstage-plugin-openfga-common": "^1.0.0",
+    "@infosys_ltd/backstage-plugin-permission-backend-module-catalog-policy": "^1.0.0",
     "react-use": "^17.2.4"
   },
   "peerDependencies": {

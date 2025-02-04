@@ -6,9 +6,10 @@ import {
   discoveryApiRef,
 } from '@backstage/core-plugin-api';
 import { rootRouteRef } from './routes';
-import { OpenFgaClient } from './api/OpenFgaClient';
-import { openFgaApiRef } from './api/openFgaApi';
-
+import {
+  OpenFgaClient,
+  openFgaApiRef,
+} from '@infosys_ltd/backstage-plugin-openfga-common';
 
 export const openfgaPlugin = createPlugin({
   id: 'openfga',
@@ -20,10 +21,7 @@ export const openfgaPlugin = createPlugin({
         discoveryApi: discoveryApiRef,
       },
       factory: ({ configApi, discoveryApi }) =>
-        OpenFgaClient.fromConfig(
-          configApi,
-          discoveryApi,
-        ),
+        OpenFgaClient.fromConfig(configApi, discoveryApi),
     }),
   ],
   routes: {
