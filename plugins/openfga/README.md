@@ -7,9 +7,10 @@ This plugin wraps around the Backstage Permission Framework and uses the OPENFGA
 ````bash
 yarn --cwd packages/app add @infosys_ltd/openfga-plugin-backstage
 yarn --cwd packages/backend add @infosys_ltd/backstage-plugin-permission-backend-module-catalog-policy
+```
 
-in following file :
-
+Make the following changes to the :
+```diff
 // packages/app/src/App.tsx
 +import { OpenfgaPage } from '@infosys_ltd/openfga-plugin-backstage';
 
@@ -22,6 +23,7 @@ in following file :
 +  <Route path="/openfga" element={<OpenfgaPage/>} />
   ...
 </FlatRoutes>
+```
 
 Make the following changes to the `packages/backend/src/index.ts` file in your Backstage project.
 
