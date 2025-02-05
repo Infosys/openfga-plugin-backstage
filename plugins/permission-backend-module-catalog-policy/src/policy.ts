@@ -6,30 +6,34 @@ import {
 import {
   PermissionPolicy,
   PolicyQuery,
+  PolicyQueryUser,
 } from '@backstage/plugin-permission-node';
 import { BackstageIdentityResponse } from '@backstage/plugin-auth-node';
-// import { OpenFgaClient } from '@infosys_ltd/backstage-plugin-openfga-common';
 import { ConfigApi, DiscoveryApi } from '@backstage/core-plugin-api';
 import { openFgaPolicyEvaluator } from './openFgaPolicyEvaluator';
-// import { OpenFgaClient } from '@infosys_ltd/backstage-plugin-openfga-common/src/api/OpenFgaClient';
 
 export class OpenFgaCatalogPolicy implements PermissionPolicy {
   private openFgaClient: openFgaPolicyEvaluator;
 
   constructor(configApi: ConfigApi, discoveryApi: DiscoveryApi) {
-    this.openFgaClient = openFgaPolicyEvaluator.fromConfig(configApi, discoveryApi);
+    this.openFgaClient = openFgaPolicyEvaluator.fromConfig(
+      configApi,
+      discoveryApi,
+    );
   }
 
   async handle(
     request: PolicyQuery,
-    user: BackstageIdentityResponse,
+    user?: PolicyQueryUser,
   ): Promise<PolicyDecision> {
+    const identityUser = user as BackstageIdentityResponse;
+
     // Check if the request is for catalog-entity permissions
     if (isResourcePermission(request.permission, 'catalog-entity')) {
       if (request.permission.name === 'catalog.entity.delete') {
         // Currently entityName is hardcoded, Load Entity based on the entity selection if possible
         const entityName = 'example-website';
-        const userName = user.identity.ownershipEntityRefs;
+        const userName = identityUser?.identity.ownershipEntityRefs;
 
         if (!entityName) {
           // If entity name is not provided, deny the permission
