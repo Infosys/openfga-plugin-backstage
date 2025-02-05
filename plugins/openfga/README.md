@@ -8,7 +8,20 @@ This plugin wraps around the Backstage Permission Framework and uses the OPENFGA
 yarn --cwd packages/app add @infosys_ltd/openfga-plugin-backstage
 yarn --cwd packages/backend add @infosys_ltd/backstage-plugin-permission-backend-module-catalog-policy
 
-Your plugin will be added to the example app in this repository, meaning you'll be able to access it by running yarn start in the root directory, and then navigating to /openfga.
+in following file :
+
+// packages/app/src/App.tsx
++import { OpenfgaPage } from '@infosys_ltd/openfga-plugin-backstage';
+
+
+<FlatRoutes>
+  <Route path="/catalog" element={<CatalogIndexPage />} />
+  <Route path="/catalog/:namespace/:kind/:name" element={<CatalogEntityPage />}>
+    {entityPage}
+  </Route>
++  <Route path="/openfga" element={<OpenfgaPage/>} />
+  ...
+</FlatRoutes>
 
 Make the following changes to the `packages/backend/src/index.ts` file in your Backstage project.
 
