@@ -8,14 +8,16 @@ import {
   PolicyQuery,
 } from '@backstage/plugin-permission-node';
 import { BackstageIdentityResponse } from '@backstage/plugin-auth-node';
-import { OpenFgaClient } from '@infosys_ltd/backstage-plugin-openfga-common';
+// import { OpenFgaClient } from '@infosys_ltd/backstage-plugin-openfga-common';
 import { ConfigApi, DiscoveryApi } from '@backstage/core-plugin-api';
+import { openFgaPolicyEvaluator } from './openFgaPolicyEvaluator';
+// import { OpenFgaClient } from '@infosys_ltd/backstage-plugin-openfga-common/src/api/OpenFgaClient';
 
 export class OpenFgaCatalogPolicy implements PermissionPolicy {
-  private openFgaClient: OpenFgaClient;
+  private openFgaClient: openFgaPolicyEvaluator;
 
   constructor(configApi: ConfigApi, discoveryApi: DiscoveryApi) {
-    this.openFgaClient = OpenFgaClient.fromConfig(configApi, discoveryApi);
+    this.openFgaClient = openFgaPolicyEvaluator.fromConfig(configApi, discoveryApi);
   }
 
   async handle(

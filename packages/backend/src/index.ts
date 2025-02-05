@@ -34,11 +34,11 @@ backend.add(import('@backstage/plugin-permission-backend/alpha'));
 //   import('@backstage/plugin-permission-backend-module-allow-all-policy'),
 // );
 
+backend.add(import('@infosys_ltd/backstage-plugin-permission-backend-module-catalog-policy'));
+
 // search plugin
 backend.add(import('@backstage/plugin-search-backend/alpha'));
 backend.add(import('@backstage/plugin-search-backend-module-catalog/alpha'));
 backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
-
-backend.add(permissionModuleCatalogPolicy);
 
 backend.start();

@@ -6,20 +6,19 @@ This plugin wraps around the Backstage Permission Framework and uses the OPENFGA
 
 ````bash
 yarn --cwd packages/app add @infosys_ltd/openfga-plugin-backstage
+yarn --cwd packages/backend add @infosys_ltd/backstage-plugin-permission-backend-module-catalog-policy
 
-Your plugin will be added to the example app in this repository, meaning you'll be able to access it by running yarn start in the root directory, and then navigating to /openfga-permission-policy.
+Your plugin will be added to the example app in this repository, meaning you'll be able to access it by running yarn start in the root directory, and then navigating to /openfga.
 
 Make the following changes to the `packages/backend/src/index.ts` file in your Backstage project.
 
 ```diff
 import { createBackend } from '@backstage/backend-defaults';
-import { permissionModuleCatalogPolicy } from '@infosys_ltd/openfga-plugin-backstage';
 
 const backend = createBackend();
 backend.add(import('@backstage/plugin-app-backend/alpha'));
 backend.add(import('@backstage/plugin-auth-backend'));
 // ..... other plugins
-+ backend.add(permissionModuleCatalogPolicy)
 
 comment following line:
 
@@ -28,6 +27,8 @@ backend.add(import('@backstage/plugin-permission-backend/alpha'));
 // backend.add(
 //   import('@backstage/plugin-permission-backend-module-allow-all-policy'),
 // );
+
+backend.add(import('@infosys_ltd/backstage-plugin-permission-backend-module-catalog-policy'));
 ````
 
 ## Configuration
