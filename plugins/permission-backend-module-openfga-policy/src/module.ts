@@ -5,9 +5,9 @@ import {
 } from '@backstage/backend-plugin-api';
 import { policyExtensionPoint } from '@backstage/plugin-permission-node/alpha';
 
-export const permissionModuleCatalogPolicy = createBackendModule({
+export const permissionModuleOpenFGAPolicy = createBackendModule({
   pluginId: 'permission',
-  moduleId: 'catalog-policy',
+  moduleId: 'openfga-policy',
   register(reg) {
     reg.registerInit({
       deps: {

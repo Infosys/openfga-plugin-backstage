@@ -7,7 +7,7 @@
  */
 
 import { createBackend } from '@backstage/backend-defaults';
-import permissionModuleCatalogPolicy from '@infosys_ltd/backstage-plugin-permission-backend-module-catalog-policy';
+import permissionModuleCatalogPolicy from '@infosys_ltd/backstage-plugin-permission-backend-module-openfga-policy';
 
 const backend = createBackend();
 
@@ -34,7 +34,7 @@ backend.add(import('@backstage/plugin-permission-backend/alpha'));
 //   import('@backstage/plugin-permission-backend-module-allow-all-policy'),
 // );
 
-backend.add(import('@infosys_ltd/backstage-plugin-permission-backend-module-catalog-policy'));
+backend.add(import('@infosys_ltd/backstage-plugin-permission-backend-module-openfga-policy'));
 
 // search plugin
 backend.add(import('@backstage/plugin-search-backend/alpha'));

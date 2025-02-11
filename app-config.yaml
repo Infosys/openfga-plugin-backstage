@@ -61,5 +61,5 @@ permission:
 # Configuration for the OpenFGA plugin
 openfga:
   baseUrl: 'http://localhost:8080'
-  storeId: '01JJV73AF055YW4S05828EMJ43'
-  authorizationModelId: '01JJV73VNSAZ4DY3JV3Q1ZN720'
+  storeId: '${StoreID}'
+  authorizationModelId: '${AuthorizationModelID}'
