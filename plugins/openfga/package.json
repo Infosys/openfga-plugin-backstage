@@ -2,7 +2,7 @@
   "name": "@infosys_ltd/openfga-plugin-backstage",
   "description": "This plugin wraps around the Backstage Permission Framework and uses the OPENFGA client to evaluate policies.",
   "author": "Infosys",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "license": "Apache-2.0",
@@ -51,7 +51,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "4.0.0-alpha.61",
     "@infosys_ltd/backstage-plugin-openfga-common": "^1.0.0",
-    "@infosys_ltd/backstage-plugin-permission-backend-module-catalog-policy": "^1.0.0",
+    "@infosys_ltd/backstage-plugin-permission-backend-module-openfga-policy": "^1.0.0",
     "react-use": "^17.2.4"
   },
   "peerDependencies": {

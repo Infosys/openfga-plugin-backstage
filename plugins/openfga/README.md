@@ -6,7 +6,7 @@ This plugin wraps around the Backstage Permission Framework and uses the OPENFGA
 
 ````bash
 yarn --cwd packages/app add @infosys_ltd/openfga-plugin-backstage
-yarn --cwd packages/backend add @infosys_ltd/backstage-plugin-permission-backend-module-catalog-policy
+yarn --cwd packages/backend add @infosys_ltd/backstage-plugin-permission-backend-module-openfga-policy
 ```
 
 Make the following changes to the :
@@ -43,10 +43,11 @@ backend.add(import('@backstage/plugin-permission-backend/alpha'));
 //   import('@backstage/plugin-permission-backend-module-allow-all-policy'),
 // );
 
-backend.add(import('@infosys_ltd/backstage-plugin-permission-backend-module-catalog-policy'));
+backend.add(import('@infosys_ltd/backstage-plugin-permission-backend-module-openfga-policy'));
 ````
 
 ## Configuration
+
 The OPENFGA client requires configuration to connect to the OPENFGA server. You need to provide a baseUrl , storeId, authorizationModelId for the OPENFGA server in your Backstage app-config.yaml file:
 
 ![proxyconfig](https://github.com/Infosys/openfga-plugin-backstage/blob/main/plugins/openfga/src/docs/proxyconfig.png)
