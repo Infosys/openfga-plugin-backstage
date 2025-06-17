@@ -1,0 +1,5 @@
+site_name: Openfga plugin backstage
+nav:
+  - Home: README.md
+  - License: LICENSE
+docs_dir: .
