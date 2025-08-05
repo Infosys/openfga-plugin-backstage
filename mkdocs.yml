@@ -1,5 +1,10 @@
-site_name: Openfga plugin backstage
+site_name: 'OpenFGA Backstage Plugin'
+docs_dir: docs
+repo_url: https://github.com/Infosys/openfga-plugin-backstage
+plugins:
+  - techdocs-core
+
 nav:
-  - Home: README.md
-  - License: LICENSE
-docs_dir: .
+  - Overview:
+      - What is OpenFGA Backstage Plugin?: 'index.md'
+      - How to install the OpenFGA plugin?: 'openfgaplugin.md'
