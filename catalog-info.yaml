@@ -9,4 +9,5 @@ metadata:
 spec:
   type: plugin
   lifecycle: experimental
-  owner: group:backstage-coe
+  owner: group:admin-group
+  ownedBy: [group:admin-group, group:dev-group]
