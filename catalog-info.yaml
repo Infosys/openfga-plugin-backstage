@@ -1,13 +1,22 @@
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: {{ values.kind }}
 metadata:
-  name: openfga-plugin-backstage
-  description: A Backstage plugin that fetches and displays real-time weather information using the Weatherstack API. It includes a secure backend proxy configuration.
+  name: {{ values.componentName }}
+  description: {{ values.description }}
   annotations:
-    github.com/project-slug: Infosys/openfga-plugin-backstage
+    github.com/project-slug: Infosys/{{ values.repoName }}
     backstage.io/techdocs-ref: dir:.
 spec:
-  type: plugin
-  lifecycle: experimental
-  owner: group:admin-group
-  ownedBy: [group:admin-group, group:dev-group]
+  type: {{ values.type }}
+  lifecycle: {{ values.lifecycle }}
+  owner: {{ values.owner }}
+  ownedBy:
+{{#each values.ownedBy}}
+    - {{this}}
+{{/each}}
+{{#if values.dependencies}}
+  dependsOn:
+{{#each values.dependencies}}
+    - {{this}}
+{{/each}}
+{{/if}}
