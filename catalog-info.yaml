@@ -10,13 +10,6 @@ spec:
   type: plugin
   lifecycle: experimental
   owner: group:admin-group
-  ownedBy:
+  ownedBy: [group:admin-group, group:ADMCOE-Team group:dev-group]
     
-    - group:admin-group
-    
-    - group:ADMCOE-Team
-    
-    - group:dev-group
-    
-  dependsOn:
-    
+
