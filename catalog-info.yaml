@@ -6,12 +6,12 @@ metadata:
   annotations:
     github.com/project-slug: Infosys/openfga-plugin-backstage
     backstage.io/techdocs-ref: dir:.
-  tags: [rbac, openfga, backstage]
+  tags: [backstage, openfga, rbac, policy]
 spec:
   type: plugin
-  lifecycle: experimental
-  owner: group:admin-group
-  ownedBy: [group:admin-group, group:ADMCOE-Team, group:dev-group]
-
-
+  lifecycle: production
+  owner: group:ADMCOE-Team 
+  ownedBy: [group:ADMCOE-Team, group:admin-group, group:dev-group]
+  dependsOn: []
+  system: 
 
