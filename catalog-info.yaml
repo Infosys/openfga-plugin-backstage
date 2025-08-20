@@ -13,5 +13,4 @@ spec:
   owner: group:ADMCOE-Team 
   ownedBy: [group:ADMCOE-Team, group:admin-group, group:dev-group]
   dependsOn: []
-  system: 
 
