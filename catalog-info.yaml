@@ -11,6 +11,7 @@ spec:
   type: plugin
   lifecycle: experimental
   owner: group:admin-group
-  ownedBy: [group:admin-group, group:ADMCOE-Team group:dev-group]
+  ownedBy: [group:admin-group, group:ADMCOE-Team, group:dev-group]
+
 
 
