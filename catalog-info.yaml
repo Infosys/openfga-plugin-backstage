@@ -13,7 +13,7 @@ spec:
   owner: group:admin-group 
   ownedBy: [group:ADMCOE-Team, group:admin-group, group:dev-group]
   dependsOn: []
-  system: "frontend-team"
+
 
 
 
